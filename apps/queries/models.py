@@ -29,7 +29,14 @@ class Order(models.Model):
     postal_code = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     paid = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
     order_json = models.JSONField()
-    status = ArrayField(models.JSONField(), blank=True, null=True)
+    status = ArrayField(
+        models.JSONField(
+            default=dict,
+            blank=True,
+            null=True
+        ), 
+        blank=True, 
+        null=True, 
+        type=list
+    )
