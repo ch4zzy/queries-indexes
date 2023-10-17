@@ -1,11 +1,14 @@
-from django.db import models
 from django.contrib.postgres.fields import ArrayField
+from django.db import models
 
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     slug = models.SlugField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Product(models.Model):
@@ -18,6 +21,9 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self) -> str:
+        return self.name
+
 
 class Order(models.Model):
     first_name = models.CharField(max_length=255)
@@ -29,12 +35,7 @@ class Order(models.Model):
     paid = models.BooleanField(default=False)
     order_json = models.JSONField()
     status = ArrayField(
-        models.JSONField(
-            default=dict,
-            blank=True,
-            null=True
-        ), 
-        blank=True, 
-        null=True, 
-        type=list
+        models.JSONField(default=dict, blank=True, null=True),
+        blank=True,
+        null=True,
     )
