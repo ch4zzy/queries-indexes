@@ -152,7 +152,7 @@ queries=# SELECT pg_size_pretty(pg_database_size('queries'));
 
 ## Queries tests for email field with BTREE and GINondexes with condition `paid=True`
 
-As a result, we can see how indices are used and patterns can be traced:
+As a result, we can see how indexes are used with lookups and patterns can be traced:
   - btree used in: exact, in, isnull
   - gin used in: contains, endswith, regex, iregex, startswith
   - parallel seq scan used in: icontains, iendswith, iexact, istartswith
