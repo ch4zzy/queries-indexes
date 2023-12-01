@@ -1,5 +1,7 @@
 from django.contrib.postgres.fields import ArrayField
+from django.contrib.postgres.indexes import HashIndex, BTreeIndex, GistIndex, GinIndex
 from django.db import models
+from django.db.models import CharField
 
 
 class Category(models.Model):
@@ -7,7 +9,7 @@ class Category(models.Model):
     description = models.TextField()
     slug = models.SlugField(max_length=255, unique=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
 
@@ -39,3 +41,27 @@ class Order(models.Model):
         blank=True,
         null=True,
     )
+    email_gin_index = GinIndex(fields=['email'], name='email_gin_idx', opclasses=['gin_trgm_ops'])
+
+    class Meta:
+        indexes = [
+            BTreeIndex(
+                fields=["email"],
+                name="email_paid_idx_btree",
+                condition=models.Q(paid=True)
+            ),
+            GinIndex(
+                fields=["status"],
+                name="status_idx_gin"
+            ),
+            GinIndex(
+                fields=["email"],
+                name="email_idx_gin",
+                opclasses=["gin_trgm_ops"],
+                condition=models.Q(paid=True),
+            ),
+        ]
+
+
+    def __str__(self) -> str:
+        return f"Order {self.id}"

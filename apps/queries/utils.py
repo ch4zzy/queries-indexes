@@ -2,8 +2,8 @@ from faker import Faker
 import random
 import json
 import faker_commerce
-from .models import Category, Product, Order
-
+from apps.queries.models import Category, Product, Order
+from .decorators import timing_decorator
 
 fake = Faker()
 
@@ -70,6 +70,7 @@ def fake_order_json():
     return order_json
 
 
+@timing_decorator
 def fake_order(n):
     for _ in range(n):
         status = fake_status()
@@ -86,10 +87,3 @@ def fake_order(n):
                 iter(status.keys())
             ) in ["paid", "delivered"] else False,
         )
-
-    fields = order._meta.fields
-    
-    for field in fields:
-        field_name = field.name
-        field_value = getattr(order, field_name)
-        print(f'{field_name}: {field_value}')

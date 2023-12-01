@@ -111,3 +111,34 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = "/static/"
+
+
+# Logging
+
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+
+    "formatters": {
+        "console": {
+            "format": "[{module} {asctime} {levelname}] {message}",
+            "style": "{",
+        },
+    },
+
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "console",
+        },
+    },
+
+    "loggers": {
+        "django.db.backends": {
+            "level": "DEBUG",
+            "handlers": ["console"],
+            "propagate": True,
+        },
+    },
+}
