@@ -28,7 +28,7 @@ The difference between email and email__contains search
 
 ### email
 
-```sql
+```
 [utils 2023-11-07 15:08:50,226 DEBUG] (0.009) EXPLAIN (ANALYZE true) 
 SELECT 
 "queries_order"."id", "queries_order"."first_name", "queries_order"."last_name", "queries_order"."email", 
@@ -50,7 +50,7 @@ This can result in a longer execution time (Execution Time: 142.835 ms).
 
 Query example: `Order.objects.filter(email__contains='gmail', paid=True)`
 
-```sql
+```
 [utils 2023-11-07 15:11:57,110 DEBUG] (0.144) EXPLAIN (ANALYZE true) 
 SELECT 
 "queries_order"."id", "queries_order"."first_name", "queries_order"."last_name", "queries_order"."email", 
@@ -72,7 +72,7 @@ Query example: `Order.objects.filter(email__icontains='GMAIL', paid=True)`
 This query also uses a parallel sequential scan, but it's case-insensitive due to the use of upper((email)::text). 
 Again, it's less efficient than an index scan, resulting in a longer execution time (Execution Time: 177.080 ms).
 
-```sql
+```
 [utils 2023-11-07 15:27:05,763 DEBUG] (0.179) EXPLAIN (ANALYZE true) 
 SELECT 
 "queries_order"."id", "queries_order"."first_name", "queries_order"."last_name", "queries_order"."email", 
@@ -161,7 +161,7 @@ As a result, we can see how indexes are used with lookups and patterns can be tr
 
 ### email__contains
 
-```sql
+```
 [utils 2023-11-12 15:34:59,608 DEBUG] (0.018) EXPLAIN (ANALYZE true) 
 SELECT 
 "queries_order"."id", "queries_order"."first_name", "queries_order"."last_name", 
@@ -180,7 +180,7 @@ Index Cond: ((email)::text ~~ '%gmail%'::text)\nPlanning Time: 11.146 ms\nExecut
 
 ### email__icontains
 
-```sql
+```
 [utils 2023-11-12 15:35:09,482 DEBUG] (1.557) EXPLAIN (ANALYZE true) 
 SELECT 
 "queries_order"."id", "queries_order"."first_name", "queries_order"."last_name", 
@@ -199,7 +199,7 @@ Planning Time: 0.212 ms\nExecution Time: 1552.862 ms"
 
 ### email_endswith
 
-```sql
+```
 [utils 2023-11-12 15:45:00,895 DEBUG] (0.037) EXPLAIN (ANALYZE true) 
 SELECT 
 "queries_order"."id", "queries_order"."first_name", "queries_order"."last_name", 
@@ -217,7 +217,7 @@ Index Cond: ((email)::text ~~ '%gmail.com'::text)\nPlanning Time: 11.655 ms\nExe
 
 ### email_iendswith
 
-```sql
+```
 [utils 2023-11-12 15:46:22,579 DEBUG] (0.984) EXPLAIN (ANALYZE true) 
 SELECT 
 "queries_order"."id", "queries_order"."first_name", "queries_order"."last_name", 
@@ -236,7 +236,7 @@ Rows Removed by Filter: 333333\nPlanning Time: 0.175 ms\nExecution Time: 982.498
 
 ### email_exact
 
-```sql
+```
 [utils 2023-11-12 15:46:36,173 DEBUG] (0.010) EXPLAIN (ANALYZE true) 
 SELECT 
 "queries_order"."id", "queries_order"."first_name", "queries_order"."last_name", 
@@ -252,7 +252,7 @@ Index Cond: ((email)::text = 'hartmankristina@example.com'::text)\nPlanning Time
 
 ### email_iexact
 
-```sql
+```
 [utils 2023-11-12 15:47:06,231 DEBUG] (0.191) EXPLAIN (ANALYZE true) 
 SELECT
 "queries_order"."id", "queries_order"."first_name", "queries_order"."last_name", 
@@ -270,7 +270,7 @@ Rows Removed by Filter: 333333\nPlanning Time: 0.090 ms\nExecution Time: 190.322
 
 ### email_in
 
-```sql
+```
 [utils 2023-11-12 15:47:22,697 DEBUG] (0.001) EXPLAIN (ANALYZE true) 
 SELECT 
 "queries_order"."id", "queries_order"."first_name", "queries_order"."last_name", 
@@ -286,7 +286,7 @@ Index Cond: ((email)::text = 'hartmankristina@example.com'::text)\nPlanning Time
 
 ### email_isnull
 
-```sql
+```
 'Index Scan using email_paid_idx_btree on queries_order  (cost=0.42..8.44 rows=1 width=683) (actual time=3.646..3.646 rows=0 loops=1)\n  
 Index Cond: (email IS NULL)\nPlanning Time: 0.074 ms\nExecution Time: 3.665 ms'
 [utils 2023-11-12 15:47:33,641 DEBUG] (0.005) EXPLAIN (ANALYZE true) 
@@ -301,7 +301,7 @@ WHERE
 
 ### email_regex
 
-```sql
+```
 [utils 2023-11-12 15:47:47,224 DEBUG] (0.784) EXPLAIN (ANALYZE true) 
 SELECT "queries_order"."id", "queries_order"."first_name", "queries_order"."last_name", 
 "queries_order"."email", "queries_order"."address", "queries_order"."postal_code", 
@@ -317,7 +317,7 @@ Index Cond: ((email)::text ~ '^.*@.*\\.Com$'::text)\nPlanning Time: 0.779 ms\nEx
 
 ### email_iregex
 
-```sql
+```
 "Bitmap Heap Scan on queries_order  (cost=1649.58..101258.56 rows=176204 width=683) (actual time=82.727..810.075 rows=222908 loops=1)\n  
 Recheck Cond: (((email)::text ~* '^.*@.*\\.cOm$'::text) AND paid)\n  Rows Removed by Index Recheck: 279017\n  
 Heap Blocks: exact=51546 lossy=33043\n  ->  Bitmap Index Scan on email_idx_gin  (cost=0.00..1605.53 rows=176204 width=0) (actual time=42.387..42.388 rows=223003 loops=1)\n        
@@ -335,7 +335,7 @@ WHERE
 
 ### email_startswith
 
-```sql
+```
 [utils 2023-11-12 15:48:12,947 DEBUG] (0.029) EXPLAIN (ANALYZE true) 
 SELECT 
 "queries_order"."id", "queries_order"."first_name", "queries_order"."last_name", 
@@ -352,7 +352,7 @@ Index Cond: ((email)::text ~~ 'hartmankristina%'::text)\nPlanning Time: 0.167 ms
 
 ### email_istartswith
 
-```sql
+```
 [utils 2023-11-12 15:48:25,980 DEBUG] (0.218) EXPLAIN (ANALYZE true) 
 SELECT 
 "queries_order"."id", "queries_order"."first_name", "queries_order"."last_name", 
@@ -364,4 +364,73 @@ WHERE
 "Gather  (cost=1000.00..97926.40 rows=3354 width=683) (actual time=195.061..216.190 rows=1 loops=1)\n  Workers Planned: 2\n  
 Workers Launched: 2\n  ->  Parallel Seq Scan on queries_order  (cost=0.00..96591.00 rows=1398 width=683) (actual time=160.883..160.884 rows=0 loops=3)\n        
 Filter: (paid AND (upper((email)::text) ~~ 'HARTMANKRISTINA%'::text))\n        Rows Removed by Filter: 333333\nPlanning Time: 0.515 ms\nExecution Time: 216.220 ms"
+```
+
+## Queries tests for status field with GIN index.
+
+ In the result we see, that gin index is uwed only in contains and diapason queries. 
+    In other cases, parallel seq scan is used.
+
+### status_contains (filter_data and filter_data_diapason)
+
+```
+[utils 2023-12-01 19:29:07,184 DEBUG] (0.027) EXPLAIN (ANALYZE true) 
+SELECT 
+"queries_order"."id", "queries_order"."first_name", "queries_order"."last_name", 
+"queries_order"."email", "queries_order"."address", "queries_order"."postal_code", 
+"queries_order"."city", "queries_order"."paid", "queries_order"."order_json", 
+"queries_order"."status" FROM "queries_order" 
+WHERE
+"queries_order"."status" @> (ARRAY['[{"unpaid": "2023-07-06 07:28:04"}]'])::jsonb[]; args=('[{"unpaid": "2023-07-06 07:28:04"}]',); alias=default
+'Bitmap Heap Scan on queries_order  (cost=20.26..150.78 rows=33 width=683) (actual time=0.506..0.507 rows=0 loops=1)\n  
+Recheck Cond: (status @> \'{"[{\\"unpaid\\": \\"2023-07-06 07:28:04\\"}]"}\'::jsonb[])\n  ->  Bitmap Index Scan 
+on status_idx_gin  (cost=0.00..20.25 rows=33 width=0) (actual time=0.502..0.503 rows=0 loops=1)\n        
+Index Cond: (status @> \'{"[{\\"unpaid\\": \\"2023-07-06 07:28:04\\"}]"}\'::jsonb[])\nPlanning Time: 15.634 ms\nExecution Time: 0.612 ms'
+
+[utils 2023-12-01 19:55:10,542 DEBUG] (0.010) EXPLAIN (ANALYZE true) 
+SELECT 
+"queries_order"."id", "queries_order"."first_name", "queries_order"."last_name", 
+"queries_order"."email", "queries_order"."address", "queries_order"."postal_code", 
+"queries_order"."city", "queries_order"."paid", "queries_order"."order_json", 
+"queries_order"."status" FROM "queries_order" 
+WHERE 
+"queries_order"."status" @> (ARRAY['{"unpaid": {"$gte": "2020-07-06 07:28:04", "$lte": "2023-08-06 07:28:04"}}'])::jsonb[]; args=('{"unpaid": {"$gte": "2020-07-06 07:28:04", "$lte": "2023-08-06 07:28:04"}}',); alias=default
+'Bitmap Heap Scan on queries_order  (cost=20.26..150.78 rows=33 width=683) (actual time=0.811..0.812 rows=0 loops=1)\n  
+Recheck Cond: (status @> \'{"{\\"unpaid\\": {\\"$gte\\": \\"2020-07-06 07:28:04\\", \\"$lte\\": \\"2023-08-06 07:28:04\\"}}"}\'::jsonb[])\n  ->  
+Bitmap Index Scan on status_idx_gin  (cost=0.00..20.25 rows=33 width=0) (actual time=0.808..0.809 rows=0 loops=1)\n        
+Index Cond: (status @> \'{"{\\"unpaid\\": {\\"$gte\\": \\"2020-07-06 07:28:04\\", \\"$lte\\": \\"2023-08-06 07:28:04\\"}}"}\'::jsonb[])\nPlanning Time: 2.857 ms\nExecution Time: 0.907 ms'
+```
+
+### date_search_lte
+
+```
+[utils 2023-12-01 19:39:37,730 DEBUG] (0.245) EXPLAIN (ANALYZE true) 
+SELECT 
+"queries_order"."id", "queries_order"."first_name", "queries_order"."last_name", 
+"queries_order"."email", "queries_order"."address", "queries_order"."postal_code", 
+"queries_order"."city", "queries_order"."paid", "queries_order"."order_json", 
+"queries_order"."status" FROM "queries_order" 
+WHERE 
+"queries_order"."status" <=  E'{"\\"[{\\\\\\"unpaid\\\\\\": \\\\\\"2023-07-06 07:28:04\\\\\\"}]\\""}'::jsonb[]; args=([Jsonb('[{"unpaid": "2023-07-06 07:28:04"}]')],); alias=default
+'Gather  (cost=1000.00..96559.33 rows=100 width=683) (actual time=242.050..243.090 rows=0 loops=1)\n  
+Workers Planned: 2\n  Workers Launched: 2\n  ->  Parallel Seq Scan on queries_order  (cost=0.00..95549.33 rows=42 width=683) (actual time=236.711..236.711 rows=0 loops=3)\n        
+Filter: (status <= \'{"\\"[{\\\\\\"unpaid\\\\\\": \\\\\\"2023-07-06 07:28:04\\\\\\"}]\\""}\'::jsonb[])\n        
+Rows Removed by Filter: 333333\nPlanning Time: 0.567 ms\nExecution Time: 243.113 ms'
+```
+
+### date_search_gte
+
+```
+[utils 2023-12-01 19:39:47,189 DEBUG] (0.473) EXPLAIN (ANALYZE true) 
+SELECT 
+"queries_order"."id", "queries_order"."first_name", "queries_order"."last_name", 
+"queries_order"."email", "queries_order"."address", "queries_order"."postal_code", 
+"queries_order"."city", "queries_order"."paid", "queries_order"."order_json", 
+"queries_order"."status" FROM "queries_order" 
+WHERE 
+"queries_order"."status" >=  E'{"\\"[{\\\\\\"unpaid\\\\\\": \\\\\\"2023-07-06 07:28:04\\\\\\"}]\\""}'::jsonb[]; args=([Jsonb('[{"unpaid": "2023-07-06 07:28:04"}]')],); alias=default
+'Seq Scan on queries_order  (cost=0.00..102841.00 rows=999900 width=683) (actual time=4.202..409.173 rows=1000000 loops=1)\n  
+Filter: (status >= \'{"\\"[{\\\\\\"unpaid\\\\\\": \\\\\\"2023-07-06 07:28:04\\\\\\"}]\\""}\'::jsonb[])\nPlanning Time: 0.109 ms\nJIT:\n  
+Functions: 2\n  Options: Inlining false, Optimization false, Expressions true, Deforming true\n  Timing: Generation 0.333 ms, Inlining 0.000 ms, Optimization 0.311 ms, Emission 3.652 ms, Total 4.296 ms\nExecution Time: 471.513 ms'
+from apps.queries.queries_examples import date_search_filter
 ```
