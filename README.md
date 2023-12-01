@@ -191,6 +191,11 @@ Recheck Cond: (status @> \'{"{\\"unpaid\\": \\"2023-07-06 07:28:04\\"}"}\'::json
 Heap Blocks: exact=1\n  ->  Bitmap Index Scan on status_idx_gin  (cost=0.00..20.25 rows=33 width=0) (actual time=0.016..0.016 rows=1 loops=1)\n        
 Index Cond: (status @> \'{"{\\"unpaid\\": \\"2023-07-06 07:28:04\\"}"}\'::jsonb[])\n
 Planning Time: 0.267 ms\nExecution Time: 0.041 ms'
-``` 
+```
+
+## The final result is:
+ - For btree and gin index (email field): [EMAIL](https://github.com/ch4zzy/queries-indexes/blob/main/readme_raw.md#queries-tests-for-status-field-with-gin-index)
+ - For gin (status field): [STATUS](https://github.com/ch4zzy/queries-indexes/blob/main/readme_raw.md#queries-tests-for-status-field-with-gin-index)
+
 
 
